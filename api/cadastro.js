@@ -1,7 +1,9 @@
 export default async function handler(req, res) {
 
   if (req.method !== "POST") {
-    return res.status(405).send("Método não permitido");
+    return res.status(405).json({
+      error: "Método não permitido"
+    });
   }
 
   try {
@@ -9,7 +11,9 @@ export default async function handler(req, res) {
     const { nome, cpf, rg, nasc, email, genero, whats } = req.body;
 
     const response = await fetch("https://formsubmit.co/ajax/SEUEMAIL@gmail.com", {
+
       method: "POST",
+
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"
@@ -26,25 +30,28 @@ export default async function handler(req, res) {
         whatsapp: whats,
 
         _subject: "Novo Cadastro",
-        _captcha: false
+        _captcha: "false"
 
       })
 
     });
 
-    const data = await response.json();
+    const data = await response.text();
 
-    if (data.success === "true" || response.ok) {
-      return res.status(200).send("Cadastro enviado");
-    }
+    console.log(data);
 
-    return res.status(500).send("Erro ao enviar email");
+    return res.status(200).json({
+      success: true,
+      data
+    });
 
-  } catch (error) {
+  } catch (err) {
 
-    console.error(error);
+    console.error(err);
 
-    return res.status(500).send("Erro interno");
+    return res.status(500).json({
+      error: err.message
+    });
 
   }
 
